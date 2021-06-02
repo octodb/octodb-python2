@@ -111,15 +111,7 @@ class DocBuilder(Command):
         if rc != 0:
             sys.stdout.write("Is sphinx installed? If not, try 'sudo pip sphinx'.\n")
 
-class AmalgamationBuilder(build):
-    description = "Build a statically built pysqlite using the amalgamtion."
-
-    def __init__(self, *args, **kwargs):
-        MyBuildExt.amalgamation = True
-        build.__init__(self, *args, **kwargs)
-
 class MyBuildExt(build_ext):
-    amalgamation = False
 
     def _pkgconfig(self, flag, package):
         status, output = commands.getstatusoutput("pkg-config %s %s" % (flag, package))
@@ -137,24 +129,22 @@ class MyBuildExt(build_ext):
 
 
     def build_extension(self, ext):
-        if self.amalgamation:
-            ext.define_macros += [
-                    ("SQLITE_ENABLE_FTS3", "1"),
-                    ("SQLITE_ENABLE_FTS3_PARENTHESIS", "1"),
-                    ("SQLITE_ENABLE_FTS4", "1"),
-                    ("SQLITE_ENABLE_RTREE", "1")]
-            ext.sources.append("sqlite3.c")
+        """
         try:
-            ext.include_dirs = self._pkgconfig_include_dirs("sqlite3")
-            ext.library_dirs = self._pkgconfig_library_dirs("sqlite3")
+            ext.include_dirs = self._pkgconfig_include_dirs("litesync")
+            ext.library_dirs = self._pkgconfig_library_dirs("litesync")
         except OSError:
             pass # no pkg_config installed
+        """
+
+        if sys.platform == "win32":
+            ext.libraries = "litesync-0.1"
+            ext.include_dirs = ""
+            ext.library_dirs = ""
+
         build_ext.build_extension(self, ext)
 
     def __setattr__(self, k, v):
-        # Make sure we don't link against the SQLite library, no matter what setup.cfg says
-        if self.amalgamation and k == "libraries":
-            v = None
         self.__dict__[k] = v
 
 def get_setup_args():
@@ -228,7 +218,6 @@ def get_setup_args():
         "build_docs": DocBuilder,
         "test": TestRunner,
         "build_ext": MyBuildExt,
-        "build_static": AmalgamationBuilder,
         "cross_bdist_wininst": cross_bdist_wininst.bdist_wininst
     })
     return setup_args
