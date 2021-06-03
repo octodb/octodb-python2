@@ -1,12 +1,32 @@
-pysqlite
-========
+OctoDB for Python 2.7
+=====================
 
-Python DB-API module for SQLite 3.
+This is a fork of [pysqlite](https://github.com/ghaering/pysqlite)
 
 Online documentation can be found [here](https://pysqlite.readthedocs.org/en/latest/sqlite3.html).
 
-You can get help from the community on the Google Group: https://groups.google.com/forum/#!forum/python-sqlite
 
-This project is not actively maintained any more: You are better off using the
-"sqlite3" module in the Python standard library, which originated from the
-pysqlite codebase.
+Installation
+------------
+
+You must install some OctoDB library for this one to work. It can be either
+pre-compiled binaries or you can compile it by yourself. You can start with
+the [free version](http://octodb.io/en/download.html).
+
+
+## Installing with pip
+
+```
+pip install octodb
+```
+
+
+## Cloning and Building
+
+Optionally you can clone the repo and build it:
+
+```
+git clone --depth=1 https://gitlab.com/octodb/octodb-python3
+cd octodb-python3
+python setup.py build
+```

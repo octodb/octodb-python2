@@ -131,14 +131,14 @@ class MyBuildExt(build_ext):
     def build_extension(self, ext):
         """
         try:
-            ext.include_dirs = self._pkgconfig_include_dirs("litesync")
-            ext.library_dirs = self._pkgconfig_library_dirs("litesync")
+            ext.include_dirs = self._pkgconfig_include_dirs("octodb")
+            ext.library_dirs = self._pkgconfig_library_dirs("octodb")
         except OSError:
             pass # no pkg_config installed
         """
 
         if sys.platform == "win32":
-            ext.libraries = "litesync-0.1"
+            ext.libraries = "octodb-0.1"
             ext.include_dirs = ""
             ext.library_dirs = ""
 
