@@ -1,5 +1,5 @@
 #-*- coding: ISO-8859-1 -*-
-# pysqlite2/dbapi2.py: the DB-API 2.0 interface
+# octodb/dbapi2.py: the DB-API 2.0 interface
 #
 # Copyright (C) 2004-2015 Gerhard Häring <gh@ghaering.de>
 #
@@ -25,7 +25,7 @@ import collections
 import datetime
 import time
 
-from pysqlite2._sqlite import *
+from octodb._sqlite import *
 
 paramstyle = "qmark"
 
